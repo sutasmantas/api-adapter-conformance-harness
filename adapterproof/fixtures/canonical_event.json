@@ -1,0 +1,10 @@
+{
+  "event_id": "evt-20260801-001",
+  "event_type": "lead.qualified",
+  "lead": {
+    "email": "buyer@example.test",
+    "id": "lead-0042",
+    "message": "Please schedule a technical discovery call.",
+    "stage": "qualified"
+  }
+}

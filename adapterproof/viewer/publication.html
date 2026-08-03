@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=1600, initial-scale=1">
+    <title>AdapterProof publication evidence</title>
+    <link rel="stylesheet" href="/publication.css">
+  </head>
+  <body>
+    <section class="frame cover" data-frame="cover">
+      <header class="pub-head">
+        <div class="pub-brand"><b>AP</b><span><strong>AdapterProof</strong><small>API conformance protocol lab</small></span></div>
+        <div class="pub-gate"><i></i> Generated suite · PASS</div>
+      </header>
+      <div class="cover-copy">
+        <p class="kicker">API adapter testing + failure handling</p>
+        <h1>Verify an API adapter<br><em>before go-live.</em></h1>
+        <p>Map one canonical event into two wire shapes, exercise real localhost requests and inspect every recovery receipt.</p>
+        <div class="chips"><span>Exact payload + headers</span><span>Retry + dead letter</span><span>Idempotency proof</span></div>
+      </div>
+      <div class="cover-score"><strong id="cover-score">—</strong><span>frozen cases pass</span></div>
+      <div class="cover-lab">
+        <div class="adapter-tabs"><span>01 notification sink</span><span>02 record sink</span></div>
+        <div class="mini-wire">
+          <div><small>CANONICAL EVENT</small><strong>lead.qualified</strong><code>evt-20260801-001</code></div>
+          <b>MANIFEST<br>MAP</b>
+          <div><small>EXERCISED REQUEST</small><strong id="cover-request">—</strong><code id="cover-headers">—</code></div>
+        </div>
+        <pre id="cover-payload">{}</pre>
+        <div class="case-scan" id="cover-cases"></div>
+      </div>
+      <aside class="cover-note"><small>PRE-GO-LIVE GATE</small><strong>Two adapter shapes.<br>One inspectable report.</strong></aside>
+    </section>
+
+    <section class="frame workflow" data-frame="workflow">
+      <header class="pub-head">
+        <div class="pub-brand"><b>AP</b><span><strong>AdapterProof</strong><small>wire-contract workflow</small></span></div>
+        <div class="pub-gate"><i></i> Real generated artifact</div>
+      </header>
+      <div class="frame-title"><p class="kicker">From event to acceptance report</p><h1>Inspect every boundary.</h1><p>The report stays traceable from mapping inputs to wire expectations and durable receipts.</p></div>
+      <div class="flow-track">
+        <article><span>01</span><small>INPUT</small><h2>Canonical event</h2><code>lead.qualified<br>evt-20260801-001</code></article>
+        <i>→</i>
+        <article><span>02</span><small>TRANSFORM</small><h2>Manifest map</h2><code id="flow-manifest">—</code></article>
+        <i>→</i>
+        <article class="active"><span>03</span><small>WIRE</small><h2 id="flow-request">—</h2><code>exact headers + JSON body</code></article>
+        <i>→</i>
+        <article><span>04</span><small>EXPECT</small><h2>Local endpoint</h2><code>ordered request assertions</code></article>
+        <i>→</i>
+        <article><span>05</span><small>OUTPUT</small><h2>Case report</h2><code id="flow-score">—</code></article>
+      </div>
+      <div class="workflow-evidence">
+        <section><div class="section-label">SAFE REQUEST HEADERS</div><div id="flow-headers" class="evidence-rows"></div></section>
+        <section><div class="section-label">REDACTED MAPPED BODY</div><pre id="flow-payload">{}</pre></section>
+      </div>
+      <footer class="boundary-bar"><span>HTTP transport exercised locally</span><span>Manifest identified by SHA-256</span><span>Secret value absent from report + SQLite</span></footer>
+    </section>
+
+    <section class="frame proof" data-frame="proof">
+      <header class="pub-head">
+        <div class="pub-brand"><b>AP</b><span><strong>AdapterProof</strong><small>failure-receipt evidence</small></span></div>
+        <div class="pub-gate"><i></i> Receipt sequences matched</div>
+      </header>
+      <div class="frame-title"><p class="kicker">Failure behavior / exact receipts</p><h1>Recover, stop or refuse—<em>on purpose.</em></h1><p>Two real frozen cases show the decision boundary: retry a transient limit; stop after an exhausted server failure.</p></div>
+      <div class="proof-grid">
+        <article class="proof-card recovery" id="proof-recovery"><div class="proof-num">CASE 03</div><div class="proof-state">RECOVERED</div><h2>429 rate limit → success</h2><div class="proof-receipts"></div><dl></dl></article>
+        <article class="proof-card stopped" id="proof-stopped"><div class="proof-num">CASE 04</div><div class="proof-state">DEAD LETTER</div><h2>503 server failure → stop</h2><div class="proof-receipts"></div><dl></dl></article>
+      </div>
+      <div class="proof-footer">
+        <div><small>Redaction boundary</small><strong>Mapped PII is [REDACTED]</strong><span>Durable report and database omit the fixture secret.</span></div>
+        <div><small>Idempotency boundary</small><strong>Changed payload is refused</strong><span>Collision stops before a second transport call.</span></div>
+        <div class="zero-secret"><strong>0</strong><span>secret values<br>persisted</span></div>
+      </div>
+      <footer class="boundary-bar"><span>Local deterministic conformance evidence</span><span>No OAuth · no named SaaS · no exactly-once claim</span></footer>
+    </section>
+    <script type="module" src="/publication.js"></script>
+  </body>
+</html>

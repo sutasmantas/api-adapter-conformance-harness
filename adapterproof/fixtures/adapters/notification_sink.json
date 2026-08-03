@@ -1,0 +1,28 @@
+{
+  "adapter_id": "notification_sink",
+  "endpoint_path": "/v2/notifications",
+  "auth": {
+    "secret_ref": "env:ADAPTERPROOF_NOTIFICATION_TOKEN",
+    "header": "Authorization",
+    "prefix": "Bearer "
+  },
+  "idempotency_header": "Idempotency-Key",
+  "correlation_header": "X-Request-ID",
+  "timeout_seconds": 2,
+  "mapping": {
+    "event_id": "metadata.event_id",
+    "event_type": "metadata.event_type",
+    "lead.id": "metadata.subject_id",
+    "lead.message": "message.text"
+  },
+  "constants": {
+    "message.channel": "operations"
+  },
+  "required_source_paths": [
+    "event_id",
+    "event_type",
+    "lead.id",
+    "lead.message"
+  ],
+  "redacted_fields": ["text"]
+}

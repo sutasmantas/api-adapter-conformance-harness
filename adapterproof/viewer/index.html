@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdapterProof protocol lab</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="grid-noise" aria-hidden="true"></div>
+    <header class="masthead">
+      <a class="brand" href="#top" aria-label="AdapterProof home">
+        <span class="brand-mark">A<span>P</span></span>
+        <span><strong>AdapterProof</strong><small>pre-flight protocol lab</small></span>
+      </a>
+      <div class="run-state"><i></i><span id="run-state">loading report</span></div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">HTTP adapter conformance / local evidence</p>
+          <h1>Verify the wire contract<br><em>before go-live.</em></h1>
+          <p class="lede">Inspect exact mappings, safe headers and failure receipts from one generated 20-case run.</p>
+        </div>
+        <dl class="scoreboard" aria-label="suite summary">
+          <div><dt>case gate</dt><dd id="case-score">—</dd></div>
+          <div><dt>adapter shapes</dt><dd id="adapter-count">—</dd></div>
+          <div><dt>secret persisted</dt><dd id="secret-state">—</dd></div>
+        </dl>
+      </section>
+
+      <section class="lab" aria-label="Adapter conformance report">
+        <aside class="adapter-rail">
+          <p class="rail-label">adapter shapes</p>
+          <div id="adapter-switcher" class="adapter-switcher"></div>
+          <div class="manifest-stamp">
+            <span>manifest sha-256</span>
+            <code id="manifest-hash">—</code>
+          </div>
+        </aside>
+
+        <article class="wire-panel">
+          <header class="panel-heading">
+            <div><span>01 / wire contract</span><h2 id="adapter-title">—</h2></div>
+            <span id="adapter-gate" class="gate">—</span>
+          </header>
+
+          <div class="wire-map">
+            <section class="source-node">
+              <span class="node-index">SOURCE</span>
+              <h3>Canonical event</h3>
+              <p>One stable business event enters both adapter shapes.</p>
+              <code>evt-20260801-001</code>
+            </section>
+            <div class="signal" aria-hidden="true"><i></i><span>manifest mapping</span><i></i></div>
+            <section class="request-node">
+              <span class="node-index">REQUEST</span>
+              <h3><b id="request-method">POST</b> <code id="request-path">—</code></h3>
+              <div id="headers" class="headers"></div>
+            </section>
+          </div>
+
+          <section class="payload-block">
+            <div class="payload-head"><span>mapped JSON body</span><span>PII redacted in durable evidence</span></div>
+            <pre id="payload">{}</pre>
+          </section>
+        </article>
+
+        <aside class="case-panel">
+          <header class="panel-heading compact">
+            <div><span>02 / frozen cases</span><h2>Failure behavior</h2></div>
+          </header>
+          <div id="case-list" class="case-list"></div>
+        </aside>
+      </section>
+
+      <section class="receipt-panel">
+        <div class="receipt-copy">
+          <p class="eyebrow">03 / selected proof</p>
+          <h2 id="case-title">—</h2>
+          <p id="case-detail">Select a frozen case to inspect its real receipt sequence.</p>
+        </div>
+        <div class="receipt-sequence" id="receipts" aria-label="receipt sequence"></div>
+        <dl class="case-metrics">
+          <div><dt>requests</dt><dd id="request-count">—</dd></div>
+          <div><dt>final state</dt><dd id="final-state">—</dd></div>
+          <div><dt>case result</dt><dd id="case-result">—</dd></div>
+        </dl>
+      </section>
+    </main>
+
+    <footer>
+      <span id="foundation">local deterministic evidence</span>
+      <span>No OAuth · no named SaaS · no production-scale claim</span>
+    </footer>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
