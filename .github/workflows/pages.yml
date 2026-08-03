@@ -1,0 +1,43 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "adapterproof/viewer/**"
+      - "docs/evidence/conformance-report.json"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - name: Assemble static report viewer
+        run: |
+          mkdir -p _site
+          cp adapterproof/viewer/index.html _site/index.html
+          cp adapterproof/viewer/app.js _site/app.js
+          cp adapterproof/viewer/styles.css _site/styles.css
+          cp docs/evidence/conformance-report.json _site/conformance-report.json
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

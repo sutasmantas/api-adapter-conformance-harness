@@ -1,0 +1,28 @@
+{
+  "adapter_id": "record_sink",
+  "endpoint_path": "/v1/records",
+  "auth": {
+    "secret_ref": "env:ADAPTERPROOF_RECORD_TOKEN",
+    "header": "X-API-Key",
+    "prefix": ""
+  },
+  "idempotency_header": "X-Idempotency-Key",
+  "correlation_header": "X-Correlation-ID",
+  "timeout_seconds": 2,
+  "mapping": {
+    "event_id": "source_event_id",
+    "lead.id": "record.external_id",
+    "lead.email": "record.contact.email",
+    "lead.stage": "record.stage"
+  },
+  "constants": {
+    "record.source": "adapterproof"
+  },
+  "required_source_paths": [
+    "event_id",
+    "lead.id",
+    "lead.email",
+    "lead.stage"
+  ],
+  "redacted_fields": ["email"]
+}
