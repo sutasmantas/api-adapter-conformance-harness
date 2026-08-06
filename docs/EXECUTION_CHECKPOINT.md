@@ -1,5 +1,43 @@
 # AdapterProof execution checkpoint — 2026-08-03
 
+## OpenAPI toolbox slice — 2026-08-06
+
+- implementation branch/worktree: `agent/toolbox-api-verification` at
+  `portfolio_demos/worktrees/adapter_proof_api_toolbox`;
+- public-snapshot branch/worktree: `agent/openapi-publication-snapshot` at
+  `portfolio_demos/worktrees/adapterproof_openapi_publication`;
+- clean base: `c70186d5308242b4e63b597aa55b9b08445f8d67`
+- scope: make AdapterProof the reusable owner of the bounded Schemathesis
+  contract already proven by the portfolio-level Phase 2 experiment;
+- security-specific work: postponed to the final toolbox backlog;
+- license research: excluded by user direction.
+
+Current gate: **PUBLICATION_SNAPSHOT_READY_HOSTED_REUSE_PENDING**.
+
+| Gate | Evidence | Status |
+| --- | --- | --- |
+| bounded contract/config validation | `adapterproof/openapi.py`; fuzzing, unknown fields, invalid paths, ports and budgets rejected | PASS |
+| result semantics | `FatalError` overrides ambiguous exit `1`; budget and expectation exit codes differ | PASS |
+| reusable CLI and workflow | `adapterproof openapi`; `.github/workflows/openapi-contract.yml` | PASS |
+| focused static/test gate | Ruff, format, strict mypy; 24 tests | PASS |
+| real Ledger consumer | commit `1bf1b65285ac46e90aebd210c9691631d7d35a7a`; 8/8 cases, `NO_FINDINGS`, receipt summary | PASS |
+| real Relay consumer and discovered-contract regression | commit `ac292e158a52bdddbaa32bcf13e8297fb21f3b6b`; 77/77 cases, `NO_FINDINGS`; boolean/integral-number boundary regressed | PASS |
+| package and retained regression | build/Twine pass; 24 focused, 107 retained + 3 skipped, 23 examples + 1 expected failure | PASS |
+| hosted cross-repository reuse | provider and consumer workflows have not executed from their remotes | PENDING |
+
+Exact next action: publish the current tip of
+`agent/openapi-publication-snapshot` first, verify its provider workflow, then
+publish the Ledger Lens and Relay snapshot branches that pin that immutable
+tip. Preserve both consumer GitHub run URLs. Local cross-project reuse is
+proven; hosted cross-repository reuse must not be claimed yet.
+
+First real-consumer mutation: Relay's generated-case volume filled the captured
+Uvicorn access-log pipe and produced `NonFatalError` network timeouts, which the
+first classifier mislabeled as findings from exit code `1`. The corrected
+runner suppresses access logs and classifies any `NonFatalError` as `RUN_ERROR`.
+Both consumers must pin the public snapshot containing the correction, not the
+foundation-only commit `2728d8d`.
+
 ## Restart boundary
 
 - repository: `portfolio_demos/adapter_proof`

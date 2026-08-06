@@ -30,6 +30,26 @@ The command must print `"gate": "PASS"` for both manifests. It can be rerun
 against the same database directory without reusing an action because each
 verification execution is separately scoped.
 
+## Reusable OpenAPI verification
+
+AdapterProof also exposes a pinned, schema-derived API gate that is consumed by
+Ledger Lens and Relay through the same JSON contract and GitHub workflow. The
+upstream Schemathesis implementation generates and checks the HTTP cases;
+AdapterProof supplies the stable isolation, budget, receipt, and failure-
+classification contract.
+
+```powershell
+.\.adapterproof-venv\Scripts\python.exe -m adapterproof openapi `
+  --config adapterproof.openapi.json `
+  --consumer-python .\.consumer-venv\Scripts\python.exe `
+  --report-dir .evidence\openapi
+```
+
+The default gate passes only on `NO_FINDINGS`. A planted mutation may explicitly
+use `--expect findings`; a timeout or schema-load failure can never count as a
+successful detection. See [the reusable contract](docs/OPENAPI_CONTRACT.md) and
+the consumer examples in Ledger Lens and Relay.
+
 ## Read-only report viewer
 
 Generate the report, then open the local protocol-lab surface:

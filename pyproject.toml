@@ -1,6 +1,6 @@
 [project]
 name = "adapterproof"
-version = "0.1.0"
+version = "0.2.0"
 description = "Credential-free conformance harness for reliable HTTP adapters"
 readme = "README.md"
 license = "MIT"

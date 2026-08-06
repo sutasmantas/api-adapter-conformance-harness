@@ -1,0 +1,64 @@
+name: Reusable OpenAPI contract
+
+on:
+  workflow_call:
+    inputs:
+      adapterproof-ref:
+        description: Exact AdapterProof Git commit used by the caller
+        required: true
+        type: string
+      config:
+        description: Consumer contract file
+        required: false
+        default: adapterproof.openapi.json
+        type: string
+      consumer-install-arguments:
+        description: Arguments passed to the consumer environment's pip install
+        required: false
+        default: -e ".[dev]"
+        type: string
+      python-version:
+        required: false
+        default: "3.12"
+        type: string
+
+jobs:
+  openapi-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out consumer
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: Install consumer in isolation
+        run: |
+          python -m venv .consumer-venv
+          .consumer-venv/bin/python -m pip install --upgrade pip
+          .consumer-venv/bin/python -m pip install ${{ inputs.consumer-install-arguments }}
+      - name: Check out the pinned AdapterProof implementation
+        uses: actions/checkout@v4
+        with:
+          repository: sutasmantas/api-adapter-conformance-harness
+          ref: ${{ inputs.adapterproof-ref }}
+          path: .adapterproof-source
+      - name: Install pinned GitHub tooling in isolation
+        run: |
+          python -m venv .adapterproof-venv
+          .adapterproof-venv/bin/python -m pip install .adapterproof-source/vendor/deliveryguard-0.1.0-py3-none-any.whl
+          .adapterproof-venv/bin/python -m pip install pytest-httpserver==1.1.5
+          .adapterproof-venv/bin/python -m pip install --no-deps .adapterproof-source
+          .adapterproof-venv/bin/python -m pip install "git+https://github.com/schemathesis/schemathesis.git@40e71c4657c79be08ea772b612a121b0e0ac7142"
+      - name: Run bounded OpenAPI contract
+        run: |
+          .adapterproof-venv/bin/adapterproof openapi \
+            --config "${{ inputs.config }}" \
+            --consumer-python .consumer-venv/bin/python \
+            --report-dir .evidence/openapi
+      - name: Upload executable receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapterproof-openapi-receipt
+          path: .evidence/openapi/

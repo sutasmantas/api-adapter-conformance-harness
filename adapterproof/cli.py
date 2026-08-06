@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
 from adapterproof.manifest import load_manifest
+from adapterproof.openapi import expectation_exit_code, run_openapi_contract
 from adapterproof.runner import run_conformance
 from adapterproof.viewer_server import create_viewer_server
 
@@ -48,6 +49,18 @@ def parser() -> argparse.ArgumentParser:
     view.add_argument("--report", type=Path, default=Path("docs/evidence/conformance-report.json"))
     view.add_argument("--host", default="127.0.0.1")
     view.add_argument("--port", type=int, default=8767)
+    openapi = command.add_parser(
+        "openapi",
+        help="run a bounded schema-derived API contract in an isolated tool environment",
+    )
+    openapi.add_argument("--config", type=Path, required=True)
+    openapi.add_argument("--consumer-python", type=Path, required=True)
+    openapi.add_argument("--report-dir", type=Path, default=Path(".evidence/openapi"))
+    openapi.add_argument(
+        "--expect",
+        choices=("no-findings", "findings"),
+        default="no-findings",
+    )
     return result
 
 
@@ -71,4 +84,23 @@ def main(argv: Sequence[str] | None = None) -> int:
         finally:
             server.server_close()
         return 0
+    if arguments.command == "openapi":
+        receipt = run_openapi_contract(
+            arguments.config,
+            arguments.consumer_python,
+            arguments.report_dir,
+        )
+        summary = {
+            key: receipt[key]
+            for key in (
+                "consumer_id",
+                "elapsed_seconds",
+                "schemathesis_exit",
+                "result_class",
+                "report",
+                "report_sha256",
+            )
+        }
+        print(json.dumps(summary, indent=2))
+        return expectation_exit_code(receipt["result_class"], arguments.expect)
     raise RuntimeError("Unknown command.")

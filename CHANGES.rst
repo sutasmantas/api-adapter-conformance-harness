@@ -2,6 +2,18 @@
 Release Notes
 =============
 
+AdapterProof 0.2.0
+==================
+
+New Features
+------------
+
+- Add a bounded OpenAPI contract command backed by an exact Schemathesis Git
+  pin, isolated tool and consumer interpreters, deterministic coverage, fixed
+  budgets, NDJSON receipts, and explicit finding/tool-failure classification.
+- Add a reusable GitHub workflow so independent API projects can consume the
+  same contract without copying the runner.
+
 .. _Release Notes_1.1.5:
 
 1.1.5
