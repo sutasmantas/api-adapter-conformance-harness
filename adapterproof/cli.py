@@ -101,6 +101,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "report_sha256",
             )
         }
+        # A failure summary that omits why it failed forces the reader into the
+        # artifact. Surface the cause inline when there is one.
+        if receipt.get("start_error"):
+            summary["start_error"] = receipt["start_error"]
         print(json.dumps(summary, indent=2))
         return expectation_exit_code(receipt["result_class"], arguments.expect)
     raise RuntimeError("Unknown command.")

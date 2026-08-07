@@ -254,7 +254,16 @@ def run_openapi_contract(
 ) -> dict[str, Any]:
     """Run one real-service OpenAPI contract and persist a classified receipt."""
     contract = load_contract(contract_path)
-    resolved_consumer_python = consumer_python.resolve()
+    # Deliberately absolute-but-not-resolved. On Linux a virtualenv's bin/python
+    # is a symlink to the base interpreter, so Path.resolve() would follow it and
+    # launch the base interpreter instead — losing the virtualenv and every
+    # package installed into it. The consumer then dies with "exited before
+    # readiness" and the run is classified TOOL_OR_START_FAILURE. Windows
+    # virtualenvs copy python.exe rather than symlinking, which is why this was
+    # invisible locally and fatal in Linux CI.
+    # PTH100 is suppressed on the next line on purpose: ruff recommends
+    # Path.resolve() here, which is the precise defect this line avoids.
+    resolved_consumer_python = Path(os.path.abspath(consumer_python))  # noqa: PTH100
     if not resolved_consumer_python.is_file():
         message = f"consumer Python does not exist: {resolved_consumer_python}"
         raise FileNotFoundError(message)

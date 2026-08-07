@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 from threading import Thread
 from urllib.request import urlopen
@@ -174,3 +175,28 @@ def test_viewer_serves_the_generated_report_and_static_surface(tmp_path: Path) -
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+
+def test_consumer_python_symlink_is_not_resolved_away(tmp_path: Path) -> None:
+    """A virtualenv interpreter must be launched as given, not resolved.
+
+    On Linux a virtualenv's bin/python is a symlink to the base interpreter.
+    Following that symlink launches the base interpreter, which cannot import
+    anything installed into the virtualenv, so the consumer exits before
+    readiness and the run is classified TOOL_OR_START_FAILURE. This regression
+    reproduces the shape directly rather than trusting the platform.
+    """
+    real = tmp_path / "base" / "python"
+    real.parent.mkdir(parents=True)
+    real.write_text("#!/bin/sh\n", encoding="utf-8")
+    link = tmp_path / "venv" / "python"
+    link.parent.mkdir(parents=True)
+    try:
+        link.symlink_to(real)
+    except (OSError, NotImplementedError):
+        pytest.skip("this platform cannot create symlinks without elevation")
+
+    assert link.resolve() == real, "precondition: resolve() follows the symlink"
+    assert Path(os.path.abspath(link)) == link, (  # noqa: PTH100
+        "the launcher must keep the virtualenv path it was given"
+    )
