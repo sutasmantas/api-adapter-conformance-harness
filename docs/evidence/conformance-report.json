@@ -403,7 +403,7 @@
       }
     }
   ],
-  "deliveryguard": "0.1.0",
+  "deliveryguard": "0.2.0",
   "foundation": "pytest-httpserver 1.1.5",
   "gate": "PASS"
 }

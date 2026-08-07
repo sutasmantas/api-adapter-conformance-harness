@@ -22,6 +22,12 @@ on:
         default: "3.12"
         type: string
 
+# Least privilege: these jobs only read the repository and run tests.
+# Without this block the workflow inherits the repository default token
+# scope, which can be read-write.
+permissions:
+  contents: read
+
 jobs:
   openapi-contract:
     runs-on: ubuntu-latest
@@ -46,7 +52,7 @@ jobs:
       - name: Install pinned GitHub tooling in isolation
         run: |
           python -m venv .adapterproof-venv
-          .adapterproof-venv/bin/python -m pip install .adapterproof-source/vendor/deliveryguard-0.1.0-py3-none-any.whl
+          .adapterproof-venv/bin/python -m pip install .adapterproof-source/vendor/deliveryguard-0.2.0-py3-none-any.whl
           .adapterproof-venv/bin/python -m pip install pytest-httpserver==1.1.5
           .adapterproof-venv/bin/python -m pip install --no-deps .adapterproof-source
           .adapterproof-venv/bin/python -m pip install "git+https://github.com/schemathesis/schemathesis.git@40e71c4657c79be08ea772b612a121b0e0ac7142"

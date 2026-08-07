@@ -20,7 +20,7 @@ dead-letter replay, and missing-secret cases.
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install vendor\deliveryguard-0.1.0-py3-none-any.whl
+.\.venv\Scripts\python.exe -m pip install vendor\deliveryguard-0.2.0-py3-none-any.whl
 .\.venv\Scripts\python.exe -m pip install -e ".[test]"
 .\.venv\Scripts\python.exe -m pytest tests\test_adapterproof.py -q
 .\.venv\Scripts\adapterproof.exe run --output .evidence\report.json

@@ -19,7 +19,7 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "deliveryguard == 0.1.0",
+    "deliveryguard == 0.2.0",
     "pytest-httpserver == 1.1.5",
 ]
 

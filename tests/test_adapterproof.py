@@ -80,7 +80,7 @@ def test_invalid_manifest_contracts_refuse(mutation: dict[str, object]) -> None:
 def test_default_suite_passes_all_wire_and_delivery_cases(tmp_path: Path) -> None:
     report = run_default_suite(tmp_path / "databases")
     assert report["gate"] == "PASS"
-    assert report["deliveryguard"] == "0.1.0"
+    assert report["deliveryguard"] == "0.2.0"
     assert report["foundation"] == "pytest-httpserver 1.1.5"
     assert len(report["adapters"]) == 2
     cases = [case for adapter in report["adapters"] for case in adapter["cases"]]
@@ -145,8 +145,8 @@ def test_cli_writes_report_and_is_repeatable_on_same_database(tmp_path: Path) ->
 
 def test_vendored_deliveryguard_wheel_matches_recorded_hash() -> None:
     root = Path(__file__).parents[1]
-    wheel = root / "vendor" / "deliveryguard-0.1.0-py3-none-any.whl"
-    expected = (root / "vendor" / "deliveryguard-0.1.0.sha256").read_text(encoding="utf-8").split()[0]
+    wheel = root / "vendor" / "deliveryguard-0.2.0-py3-none-any.whl"
+    expected = (root / "vendor" / "deliveryguard-0.2.0.sha256").read_text(encoding="utf-8").split()[0]
     assert hashlib.sha256(wheel.read_bytes()).hexdigest() == expected
 
 
