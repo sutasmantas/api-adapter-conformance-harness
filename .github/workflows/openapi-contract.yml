@@ -42,6 +42,12 @@ jobs:
         run: |
           python -m venv .consumer-venv
           .consumer-venv/bin/python -m pip install --upgrade pip
+          # A consumer may depend on a vendored wheel that is not on any index.
+          # Install whatever it vendors before installing the consumer itself,
+          # or its own pin becomes unresolvable here.
+          if compgen -G "vendor/*.whl" > /dev/null; then
+            .consumer-venv/bin/python -m pip install vendor/*.whl
+          fi
           .consumer-venv/bin/python -m pip install ${{ inputs.consumer-install-arguments }}
       - name: Check out the pinned AdapterProof implementation
         uses: actions/checkout@v4
