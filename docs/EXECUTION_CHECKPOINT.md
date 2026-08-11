@@ -181,3 +181,20 @@ evidence registry, and update the cross-portfolio checkpoint. AdapterProof's
 publication gate is all `PASS`; after those bookkeeping updates the separate
 DeliveryGuard publication branch may begin. Keep the borrowed foundation only
 as `upstream`.
+# Technique-dossier checkpoint — 2026-08-05
+
+- Branch: `agent/adapter-proof-technique-dossier`
+- Clean base: `main` at `c70186d5308242b4e63b597aa55b9b08445f8d67`
+- Dossier commit: `45ad035`
+- Systematic evidence gate: `PASS` (all eleven gates in
+  `RESEARCH_DECISION.md`).
+- Experiment/technique-ceiling gate: `PARTIAL`; A0-A4 are designs only.
+- Verification: `python -m ruff check adapterproof
+  tests/test_adapterproof.py` and `python -m pytest -q
+  tests/test_adapterproof.py` -> 14 passed.
+- Remaining limitations: no OpenAPI generation/stateful result, compatibility
+  result, OAuth/pagination/security profile, non-REST conformance, live
+  provider evidence or production scale.
+- Exact next action: A0 common corpus/reset/finding scorer, then A1 fixed
+  control versus adopted Schemathesis/Hypothesis. Do not write a custom
+  generator before that component experiment.

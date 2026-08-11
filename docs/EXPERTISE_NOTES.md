@@ -95,3 +95,28 @@ dedupe, collision, dead-letter, replay, receipt, and secret-persistence rules.
   a named provider still needs its current schema, auth flow, and fixtures.
 - Deeper evidence to open if challenged: exact request expectations, mapped
   payloads, receipt sequences, collision refusal, and redacted report artifact
+# Systematic technique decisions (2026-08-05)
+
+The original implemented wire-conformance note remains below. These research-backed decisions have not yet run A0-A4.
+
+## Use fixed acceptance and generated stateful tests for different failures
+
+- **Trigger:** an API integration has known business rules but an OpenAPI surface large enough for combinations and dependent workflows to escape review.
+- **Failure:** fixed cases miss unknown combinations; schema fuzzing can produce high activity while missing semantic validity or exact client policy.
+- **Decision:** preserve exact wire/lifecycle cases, then reuse Schemathesis/Hypothesis for generated and stateful exploration. Escalate to RESTler/EvoMaster only for measured deep-sequence gaps.
+- **Control:** count unique reproducible seeded defects, valid-operation rate, replay success and flakiness under equal budgets—not request volume or 5xx count.
+- **Boundary:** A0/A1 have not run; AdapterProof does not yet support OpenAPI generation.
+- **Evidence:** `TECHNIQUE_TAXONOMY.md`, A0-A2 in `BENCHMARK_DESIGN.md`, and `GITHUB_IMPLEMENTATION_AUDIT.md`.
+- **Proposal-safe insight:** I keep exact business acceptance as the release gate and use generated stateful testing to discover the cases humans did not enumerate.
+- **Central index disposition:** add card **Use fixed and generated stateful API tests for different failures**.
+
+## Test compatibility from consumer usage, not schema diff alone
+
+- **Trigger:** a provider version changes while one or more clients must keep working.
+- **Failure:** a spec diff can flag unused changes or miss runtime semantic drift; a consumer contract can omit provider behavior no consumer expressed.
+- **Decision:** combine oasdiff for documented surface changes, Pact for exercised consumer assumptions and AdapterProof/runtime replay for wire and semantic behavior.
+- **Control:** map each frozen consumer-breaking and additive change to the gate that caught or falsely blocked it.
+- **Boundary:** A3 has not run; no compatibility guarantee is claimed.
+- **Evidence:** A3 in `BENCHMARK_DESIGN.md` and pinned Pact/oasdiff audit.
+- **Proposal-safe insight:** compatibility is a layered release decision: what the provider declared, what consumers use, and what the runtime actually does.
+- **Central index disposition:** add distinct card **Test API compatibility from consumer usage, not schema diff alone**.
