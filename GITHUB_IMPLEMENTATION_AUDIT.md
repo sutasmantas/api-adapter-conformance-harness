@@ -2,7 +2,7 @@
 
 Date: 2026-08-05
 
-Purpose: adopt maintained generation, compatibility and protocol components before writing substantial test logic. Licenses are intentionally ignored; fitness, health, observed limitations and integration cost control adoption.
+Purpose: adopt maintained generation, compatibility and protocol components before writing substantial test logic. Fitness, health, observed limitations and integration cost control adoption.
 
 ## Current seams
 
