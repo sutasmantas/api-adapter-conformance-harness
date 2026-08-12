@@ -1,5 +1,7 @@
 # AdapterProof
 
+**Verification:** [claim-to-artifact map and rerun commands](https://sutasmantas.github.io/evidence/#adapterproof) · [machine-readable receipt](https://sutasmantas.github.io/evidence/receipt.json)
+
 AdapterProof verifies a client-owned HTTP integration before live credentials
 or go-live. A declarative manifest maps a canonical event into the provider
 payload and defines referenced authentication, idempotency, and correlation

@@ -1,5 +1,7 @@
 # Validate an adapter contract before claiming a live integration
 
+**Verification:** [claim-to-artifact map and rerun commands](https://sutasmantas.github.io/evidence/#adapterproof) · [machine-readable receipt](https://sutasmantas.github.io/evidence/receipt.json)
+
 ### Client trigger
 
 - Job wording or deliverable that makes this relevant: API/webhook integration,
