@@ -1,7 +1,9 @@
 name: Verify pinned reusable workflow
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - agent/verify-pinned-reusable-workflow
 
 permissions:
   contents: read
