@@ -1,0 +1,13 @@
+name: Verify pinned reusable workflow
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    uses: ./.github/workflows/openapi-contract.yml
+    with:
+      adapterproof-ref: 914999a33a4808424ebd9a2a17c0492816ec5a73
